@@ -1,14 +1,12 @@
 package stepdefinitions;
 
+import exceptions.AssertionsService;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import net.serenitybdd.screenplay.GivenWhenThen;
 import net.serenitybdd.screenplay.actors.OnStage;
-import questions.StatusCode;
-import questions.TheQuantityFieldsService;
-import questions.TheSchemaIs;
-import questions.TheSchemaJson;
+import questions.*;
 import tasks.ConsumeGet;
 import tasks.Load;
 import utils.resources.WebServiceEndpoints;
@@ -36,26 +34,35 @@ public class GetStepDefinitions {
     @Then("I should see the status code {int}")
     public void iShouldSeeTheStatusCode(int responseCode) {
         OnStage.theActorInTheSpotlight()
-                .should(GivenWhenThen.seeThat(StatusCode.is(responseCode)));
+                .should(GivenWhenThen.seeThat(StatusCode.is(responseCode))
+                        .orComplainWith(AssertionsService.class, AssertionsService.THE_STATUS_CODE_SERVICE_IS_NOT_EXPECTED));
     }
     @Then("I validate quantity key is {int}")
     public void iValidateQuantityKeyIs(int quantity) {
         OnStage.theActorInTheSpotlight()
-                .should(GivenWhenThen.seeThat(TheQuantityFieldsService.are(quantity)));
+                .should(GivenWhenThen.seeThat(TheQuantityFieldsService.are(quantity))
+                        .orComplainWith(AssertionsService.class,AssertionsService.QUANTITY_SERVICE_IS_NOT_EXPECTED));
     }
     @Then("I validate schema response {string}")
     public void iValidateSchemaResponse(String schemaResponse) {
-        OnStage.theActorInTheSpotlight().should(GivenWhenThen.seeThat(TheSchemaIs.expected(schemaResponse)));
+        OnStage.theActorInTheSpotlight().should(GivenWhenThen.seeThat(TheSchemaIs.expected(schemaResponse))
+                .orComplainWith(AssertionsService.class,AssertionsService.SCHEMA_SERVICE_IS_NOT_EXPECTED));
 
         /*OnStage.theActorInTheSpotlight()
                 .should(GivenWhenThen.seeThat(TheSchemaJson.is(schemaResponse)));*/
     }
     @Then("I validate fields get response api")
     public void iValidateFieldsGetResponseApi() {
-
+        OnStage.theActorInTheSpotlight().should(
+                GivenWhenThen.seeThat(TheFieldsGetServiceResponseAre.expected())
+                        .orComplainWith(AssertionsService.class,AssertionsService.THE_FIELDS_SERVICE_IS_NOT_EXPECTED)
+        );
     }
     @Then("I validate get response contain data expected")
     public void iValidateGetResponseContainDataExpected() {
-
+        OnStage.theActorInTheSpotlight().should(
+                GivenWhenThen.seeThat(TheFieldsAndValuesGetResponseAre.expected())
+                        .orComplainWith(AssertionsService.class,AssertionsService.THE_FIELDS_AND_VALUES_SERVICE_IS_NOT_EXPECTED)
+        );
     }
 }
