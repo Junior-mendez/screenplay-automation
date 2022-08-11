@@ -1,0 +1,41 @@
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+        mavenLocal()
+    }
+    dependencies {
+        classpath("net.serenity-bdd:serenity-gradle-plugin:2.3.12")
+    }
+}
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'net.serenity-bdd.aggregator'
+
+group 'org.practica'
+version '1.0'
+
+ext{
+    serenityVersion='2.3.12'
+}
+
+tasks.withType(JavaCompile){
+    options.encoding='UTF-8'
+}
+
+dependencies {
+    testImplementation group:'junit', name:'junit', version:'4.13.1'
+    implementation "org.slf4j:slf4j-api:1.7.30"
+    implementation "org.slf4j:slf4j-simple:1.7.30"
+    implementation group:'io.rest-assured', name:'json-schema-validator', version:'4.3.3'
+    implementation group:'com.codoid.products', name:'fillo', version:'1.18'
+    implementation "net.serenity-bdd:serenity-cucumber6:$rootProject.ext.serenityVersion"
+    implementation "net.serenity-bdd:serenity-screenplay-rest:$rootProject.ext.serenityVersion"
+    implementation "net.serenity-bdd:serenity-junit:$rootProject.ext.serenityVersion"
+    implementation "net.serenity-bdd:serenity-core:$rootProject.ext.serenityVersion"
+    implementation "net.serenity-bdd:serenity-rest-assured:$rootProject.ext.serenityVersion"
+}
