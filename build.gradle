@@ -39,3 +39,6 @@ dependencies {
     implementation "net.serenity-bdd:serenity-core:$rootProject.ext.serenityVersion"
     implementation "net.serenity-bdd:serenity-rest-assured:$rootProject.ext.serenityVersion"
 }
+test {
+    useJUnitPlatform()
+}
